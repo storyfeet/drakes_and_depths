@@ -1,0 +1,4 @@
+BroadSword
+.Damage : p.Str + 2 
+.Accuracy : 3
+.
