@@ -2,3 +2,7 @@ BroadSword
 .Damage : p.Str + 2 
 .Accuracy : 3
 .
+
+Bow
+.Damage : p.str+p.dex
+.Accuracy : 2
