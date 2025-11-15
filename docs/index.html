@@ -1,133 +1,160 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Drakes and Depths - Character Sheet</title>
-		<meta charset="utf-8"/>
-	</head>
-	<body>
-		<div class="title-banner">
-			<h1>Drakes and Depths Character Sheet Designer</h1>
-		</div>
-		
-		<div class="action-panel">
-			<button id="generate-btn" class="generate-btn">Generate Character</button>
-		</div>
 
-		<div id="charsheet" class="charsheet-panel">
-			
-		</div>
+<head>
+	<title>Drakes and Depths - Character Sheet</title>
+	<meta charset="utf-8" />
+</head>
 
-		
-	</body>
+<body>
+	<div class="title-banner">
+		<h1>Drakes and Depths Character Sheet Designer</h1>
+	</div>
+
+	<div class="action-panel">
+		<button id="generate-btn" class="generate-btn">Generate Character</button>
+	</div>
+
+	<div id="charsheet" class="charsheet-panel">
+
+	</div>
+
+
+</body>
 
 <script type="module">
-import dl from "./js/domlite.js";	
+	import dl from "./js/domlite.js";
 
-let dom = {
-	regenBtn: document.getElementById('generate-btn'),
-}
-
-function setup(){
-	dom.regenBtn.onclick = ()=>{
-		let stats = generateStats();
-		drawStats(stats);
-	};
-}
-
-
-
-const STATS = ["Strength","Charisma","Perception","Wisdom","Intelligence","Resistance","Agility","Constitution","Dexterity","Stealth" ];
-
-const SPEED_STATS = ["Walk","Run","Swim","Jump","Fly"];
-
-
-const SPECIES = ["Human","Troll","Elf","Goblin"];
-
-const SPECIES_STRENGTHS = {
-	"Human": ["Charisma", "Perception"],
-	"Troll": ["Strength","Resistance"],
-	"Elf":["Constitution","Intelligence"],
-	"Goblin": ["Crafty","Stealth"],
-};	
-
-
-const SPECIES_WEAKNESSES = {
-	"Human": ["Resistance","Constitution"],
-	"Troll": ["Intelligence", "Perception"],
-	"Elf" : ["Wisdom","Strength"],
-	"Goblin": ["Charisma","Agility"],
-}
-
-
-const STAT_VALUES = [1,1,2,2,3,3,4,4,5,5];
-
-function generateStats(){
-
-	let species = selectRandom(SPECIES);
-
-	let statlist = [...STATS].filter((stat)=> !(
-		SPECIES_STRENGTHS[species].includes(stat) || 
-		SPECIES_WEAKNESSES[species].includes(stat)
-	));
-	shuffleArray(statlist);
-	
-
-	let strengths = [
-		...SPECIES_STRENGTHS[species],
-		statlist.pop(),
-		statlist.pop(),
-		statlist.pop(),
-	];
-
-	let weaknesses = [
-		...SPECIES_WEAKNESSES[species],
-		statlist.pop(),
-		statlist.pop(),
-	]
-
-	shuffleArray(strengths);	
-	shuffleArray(weaknesses);
-
-	return {
-		"name": "pete",
-		"species": species,
-		"strengths" : strengths,
-		"weaknesses" : weaknesses,
+	let dom = {
+		regenBtn: document.getElementById('generate-btn'),
 	}
-}
 
-function selectRandom(list){
-	return list[Math.floor(Math.random() * list.length)];
-}
-
-function drawStats(stats){
-	console.log('stats' , stats);
-	let panel = document.getElementById("charsheet");
-	dl.setContent(
-		panel,
-		dl.tx(`Species : ${stats.species}`),
-		dl.br(),
-		dl.tag('h2',{}, 'Strengths'),
-		...stats.strengths.map((st)=>dl.tx(st)),
-		dl.tag('h2',{}, 'Weeknesses'),
-		...stats.weaknesses.map((st)=>dl.tx(st)),
-	);
-}
-
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}
-
-setup();
-
-let stats = generateStats();
-drawStats(stats);
+	function setup() {
+		dom.regenBtn.onclick = () => {
+			let stats = generateStats();
+			drawStats(stats);
+		};
+	}
 
 
-	
+	const STATS = ["Strength", "Charisma", "Perception", "Wisdom", "Intelligence", "Resistance", "Agility", "Constitution", "Dexterity", "Stealth"];
+
+	const SPEED_STATS = ["Walk", "Run", "Swim", "Jump", "Fly"];
+
+
+	const SPECIES = ["Human", "Troll", "Elf", "Goblin"];
+
+	const SPECIES_STRENGTHS = {
+		"Human": ["Charisma", "Perception"],
+		"Troll": ["Strength", "Resistance"],
+		"Elf": ["Constitution", "Intelligence"],
+		"Goblin": ["Crafty", "Stealth"],
+	};
+
+
+	const SPECIES_WEAKNESSES = {
+		"Human": ["Resistance", "Constitution"],
+		"Troll": ["Intelligence", "Perception"],
+		"Elf": ["Wisdom", "Strength"],
+		"Goblin": ["Charisma", "Agility"],
+	}
+
+
+	const STAT_VALUES = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5];
+
+	function generateStats() {
+
+		let species = selectRandom(SPECIES);
+
+		let statlist = [...STATS]//.filter((stat)=> !(
+		//	SPECIES_STRENGTHS[species].includes(stat) || 
+		//	SPECIES_WEAKNESSES[species].includes(stat)
+		//));
+		shuffleArray(statlist);
+
+
+
+		let strengths = [
+			statlist.pop(),
+			statlist.pop(),
+			statlist.pop(),
+		];
+
+		let weaknesses = [
+			statlist.pop(),
+			statlist.pop(),
+		]
+
+		shuffleArray(strengths);
+		shuffleArray(weaknesses);
+
+		return {
+			"name": "pete",
+			"species_strengths": SPECIES_STRENGTHS[species],
+			"species_weaknesses": SPECIES_WEAKNESSES[species],
+			"species": species,
+			"strengths": strengths,
+			"weaknesses": weaknesses,
+		}
+	}
+
+	function selectRandom(list) {
+		return list[Math.floor(Math.random() * list.length)];
+	}
+
+	function drawStats(stats) {
+		console.log('stats', stats);
+		let panel = document.getElementById("charsheet");
+		dl.setContent(
+			panel,
+			`Name : ${stats.name}`,
+			dl.br(),
+			`Species : ${stats.species}`,
+			dl.tag('h2', {}, 'Strengths'),
+			drawStat(stats.species, stats.species_strengths, stats.strengths, stats.weaknesses),
+			drawStat(stats.name, stats.strengths, stats.species_strengths, stats.species_weaknesses),
+			dl.tag('h2', {}, 'Weaknesses'),
+			drawStat(stats.species, stats.species_weaknesses, stats.weaknesses, stats.strengths),
+			drawStat(stats.name, stats.weaknesses, stats.species_weaknesses, stats.species_strengths),
+		);
+	}
+
+	function drawStat(name, list, strongList = [], neutralList = []) {
+		return [
+			dl.tag('h3', {}, name),
+			[].concat(...list.map((item) => [
+				strongNeutral(item, strongList, neutralList),
+				dl.tx(' - ')]
+			)).slice(0, -1),
+		];
+	}
+
+	function strongNeutral(word, strongList = [], neutralList = []) {
+		if (strongList.includes(word)) {
+			return dl.tag('b', {}, word);
+		}
+		if (neutralList.includes(word)) {
+			return dl.tag('strike', {}, word);
+		}
+		return word;
+
+	}
+
+
+	function shuffleArray(array) {
+		for (let i = array.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[array[i], array[j]] = [array[j], array[i]];
+		}
+	}
+
+	setup();
+
+	let stats = generateStats();
+	drawStats(stats);
+
+
+
 </script>
 
 </html>
