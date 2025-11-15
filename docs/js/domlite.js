@@ -1,7 +1,7 @@
 
 export function setContent(wrapper,...content){
 	wrapper.innerHTML = '';
-	wrapper.append(...content);
+	appendFlat(wrapper,content);
 }
 
 export function tag(name,props = {},children = []){
@@ -13,12 +13,23 @@ export function tag(name,props = {},children = []){
 	if (props.className){
 		res.classList.add(props.className);
 	}
-	if (typeof children[Symbol.iterator] === 'function'){
-		res.append(...children);	
-	}else {
-		res.append(children);
-	}
+	appendFlat(res,children);
 	return res;
+}
+
+function appendFlat(container,item){
+	if (! item) return null;
+	if (item instanceof Element || typeof item === 'string'){
+		container.append(item);
+		return;
+	}
+	if (typeof item[Symbol.iterator] === 'function'){
+		for(let ch of item){
+			appendFlat(container,ch);
+		}
+		return;
+	}
+	container.appendChild(item);
 }
 
 export function tx(str,props = {}){
