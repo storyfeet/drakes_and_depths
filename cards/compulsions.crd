@@ -1,0 +1,21 @@
+
+# Default properties - cards between this and the next
+# '@def' should be triggers,
+"See an Animal":
+.type:trigger
+.tx:"You are good at this"
+
+"Meet a stranger":
+.type:trigger
+
+"Lose something":
+.type:trigger
+
+"In the dark":
+.type:trigger
+
+"Leave a room":
+.type:trigger
+
+
+
