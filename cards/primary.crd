@@ -1,0 +1,31 @@
+@def:
+.type: primary
+
+Strength:
+.tx: "Lift and Push heavy things, or people. Bonus to physical damage"
+
+Charisma:
+.tx: "Pursuade people do what you need, make friends easily" 
+
+Perception:
+.tx: "Catch lies, and be aware of extra detail in you surroundings"
+
+Magic:
+.tx: "Cast spells and use enchantments/blessing effectively
+Energy Bonus on spells."
+
+Intelligence:
+.tx: "Engineer structures and objects. Bonus initiative."
+
+Resistance:
+.tx: "Extra defence against physical attacks. Bonus Health."
+
+Constitution:
+.tx: "Extra defence agains poison and magic attacks. Bonus Energy"
+
+Agility:
+.tx: "Full body flexibilty and ability to move quickly. Bonus Initiative"
+
+Dexterity:
+.tx: "Accurate, and capable with your hands. Energy Bonus on physical activity"
+

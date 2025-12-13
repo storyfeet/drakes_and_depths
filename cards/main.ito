@@ -1,0 +1,111 @@
+{{export 
+	page_width = 595;
+	page_height = 800;
+    card_width = 250;
+    card_height= 180;
+    padding = 1;
+    margin=4;
+}}
+
+{{@export file_extra -}}
+
+/col_blue {0 0 1} def
+/col_red {1 0 0} def
+/col_green {0 1 1} def
+/col_orange {1 0.5 0} def
+
+/tdef { exch def} def
+
+/rect { /h tdef /w tdef
+	w 0 rlineto
+	0 h rlineto
+	0 w sub 0 rlineto
+	closepath
+} def
+
+/hint_rect {
+	10 10 rect
+	2 setlinewidth
+	gsave
+	0 setgray stroke
+	grestore
+	setrgbcolor fill 
+} def
+
+/border {
+	0 0 moveto
+	{{$card_width}} {{$card_height}} rect stroke
+} def
+
+/title {
+	8 162 moveto
+	/Arial-Bold 14 selectfont
+	show
+} def
+
+/font_normal {
+	0 setgray
+	/Arial 12 selectfont
+} def
+ 
+/title_bar{ % red green blue 
+	newpath
+	5 155 moveto
+	245 155 lineto 	
+	3 setlinewidth
+	setrgbcolor
+	stroke
+} def
+
+{{/export}}
+
+{{global type_color -}}
+{{switch $0}}
+	{{- case "diss"}}col_red
+	{{- case "value"}}col_green
+	{{- case "skill"}}col_green
+	{{- case "primary"}}col_orange
+	{{- case _}}col_blue
+{{/switch}}
+{{/global}}
+
+
+{{@export extra}}
+{{- /export}}
+
+{{global front}}
+	border
+	({{.Name}}) title
+	{{type_color (first .type "")}} title_bar
+	
+	{{let squares = filter (list (select (first .combat false) "col_red" null) (select (first .passive null) "col_orange" null)) }}
+	{{for k v in $squares -}}
+		{{sub 230 (mul $k 20)}} 160 moveto 
+		{{$v}} hint_rect
+	{{/for}}
+
+	{{if .tx -}}
+		{{let lines = (word_wrap .tx 40) -}}
+		{{for k v in $lines -}}
+			12 {{sub 130 (mul $k 15)}} moveto		
+			font_normal
+			({{$v}}) show 
+	\	
+		{{- /for}}
+	{{- /if}}
+	
+	
+
+	{{if .cost}}
+		(Cost : {{join_with " / " (append .cost)}})	
+		5 5 moveto 
+		font_normal
+		show
+	{{/if}}
+{{/global}}
+
+
+{{global back}}
+	border
+{{/global}}
+
